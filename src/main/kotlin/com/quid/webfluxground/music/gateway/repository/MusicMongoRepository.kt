@@ -1,7 +1,8 @@
 package com.quid.webfluxground.music.gateway.repository
 
 import org.bson.types.ObjectId
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository
+import org.springframework.data.repository.CrudRepository
 
-interface MusicMongoRepository: ReactiveMongoRepository<MusicDocument, ObjectId> {
+interface MusicMongoRepository: CrudRepository<MusicDocument, ObjectId> {
+    fun existsByTitleAndArtist(title: String, artist: String): Boolean
 }

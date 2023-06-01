@@ -24,14 +24,16 @@ class Music(
         genre: String = this.genre,
         duration: Int = this.duration,
     ): Music {
-        return Music(
-            id = id,
-            title = title,
-            artist = artist,
-            album = album,
-            genre = genre,
-            duration = duration,
-        )
+        return Music(id,title,artist,album, genre,duration)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Music) return false
+        return other.id == id
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
     }
 }
 
