@@ -8,12 +8,11 @@ import reactor.core.publisher.Mono
 interface MusicRepository {
     fun findAll(): Flux<Music>
     fun save(music: Music): Mono<Music>
-    fun checkDuplicate(music: Music): Boolean
+    fun checkDuplicate(music: Music): Mono<Boolean>
 
     @Repository
     class MusicRepositoryImpl(
         private val reactiveMusicMongoRepository: ReactiveMusicMongoRepository,
-        private val musicMongoRepository: MusicMongoRepository,
     ) : MusicRepository {
         override fun findAll(): Flux<Music> {
             return reactiveMusicMongoRepository.findAll().map { it.toDomain() }
@@ -23,8 +22,8 @@ interface MusicRepository {
             return reactiveMusicMongoRepository.save(document(music)).map { it.toDomain() }
         }
 
-        override fun checkDuplicate(music: Music): Boolean {
-            return musicMongoRepository.existsByTitleAndArtist(music.title, music.artist)
+        override fun checkDuplicate(music: Music): Mono<Boolean> {
+            return reactiveMusicMongoRepository.existsByTitleAndArtist(music.title, music.artist)
         }
     }
 }

@@ -14,8 +14,10 @@ interface MusicSave {
         private val musicRepository: MusicRepository,
     ) : MusicSave {
         override fun persist(music: Music): Mono<Music> =
-            takeIf { musicRepository.checkDuplicate(music) }
-                ?.let { Mono.error(IllegalArgumentException("Music already exists")) }
-                ?: musicRepository.save(music)
+            musicRepository.checkDuplicate(music)
+                .filter(Boolean::not)
+                .switchIfEmpty(Mono.error(IllegalArgumentException("Music already exists")))
+                .then(musicRepository.save(music))
+
     }
 }
