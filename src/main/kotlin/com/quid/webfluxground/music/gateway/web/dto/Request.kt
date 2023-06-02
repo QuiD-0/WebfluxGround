@@ -19,3 +19,9 @@ data class MusicCreateRequest(
             duration = duration)
     }
 }
+
+data class MusicUpdateRequest(
+    val id: String,
+    val title: String,
+    val artist: String,
+)
