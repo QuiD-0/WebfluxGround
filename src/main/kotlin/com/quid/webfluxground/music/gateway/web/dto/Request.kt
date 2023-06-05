@@ -25,3 +25,6 @@ data class MusicUpdateRequest(
     val title: String,
     val artist: String,
 )
+
+data class MusicDeleteRequest(
+    val id: String)

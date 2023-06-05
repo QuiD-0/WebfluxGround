@@ -12,6 +12,8 @@ interface MusicRepository {
     fun save(music: Music): Mono<Music>
     fun checkDuplicate(music: Music): Mono<Boolean>
     fun findById(id: String): Mono<Music>
+    fun delete(id: String)
+    fun deleteBy(title: String, artist: String)
 
     @Repository
     class MusicRepositoryImpl(
@@ -35,6 +37,14 @@ interface MusicRepository {
                 .switchIfEmpty(Mono.error(IllegalArgumentException("Music not found")))
                 .map { it.toDomain() }
 
+        }
+
+        override fun delete(id: String) {
+            reactiveMusicMongoRepository.deleteById(ObjectId(id)).subscribe()
+        }
+
+        override fun deleteBy(title: String, artist: String) {
+            reactiveMusicMongoRepository.deleteByTitleAndArtist(title, artist).subscribe()
         }
     }
 }
