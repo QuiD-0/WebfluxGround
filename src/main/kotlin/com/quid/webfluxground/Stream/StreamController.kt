@@ -27,16 +27,18 @@ class StreamController {
 
     /**
      * curl -i localhost:8080/postSse
-     * -d '{"data":1}'
+     * -d '{"data":1}{"data":2}{"data":3}'
      * -H 'Content-Type: application/stream+json'
      * -H 'Accept: text/event-stream'
      *
      * */
     @PostMapping("/postSse")
-    fun postStream(@RequestBody req: PostRequest) : Flux<MutableMap<String,Int>> =
-        Stream.iterate(0) { e: Int -> e + 1 }.let {
-            Flux.fromStream(it)
-                .map { Collections.singletonMap("value", req.data) }
+    fun postStream(@RequestBody req: Flux<PostRequest>) : Flux<MutableMap<String,Int>> =
+        Stream.iterate(0){ e: Int -> e+1 }.let { data ->
+            Flux.fromStream(data)
+                .zipWith(req.map { it.data })
+                .map { it.t1 + it.t2 }
+                .map { Collections.singletonMap("value", it ) }
                 .delayElements(Duration.ofSeconds(1))
         }
     /**
