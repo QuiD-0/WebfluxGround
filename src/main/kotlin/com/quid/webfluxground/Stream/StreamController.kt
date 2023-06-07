@@ -1,5 +1,6 @@
 package com.quid.webfluxground.Stream
 
+import com.quid.webfluxground.Stream.request.PostRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -62,4 +63,3 @@ class StreamController {
 
 }
 
-data class PostRequest(val data: Int)
