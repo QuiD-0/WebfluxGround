@@ -26,6 +26,20 @@ class StreamController {
         }
 
     /**
+     * curl -i localhost:8080/postSse
+     * -d '{"data":1}'
+     * -H 'Content-Type: application/stream+json'
+     * -H 'Accept: text/event-stream'
+     *
+     * */
+    @PostMapping("/postSse")
+    fun postStream(@RequestBody req: PostRequest) : Flux<MutableMap<String,Int>> =
+        Stream.iterate(0) { e: Int -> e + 1 }.let {
+            Flux.fromStream(it)
+                .map { Collections.singletonMap("value", req.data) }
+                .delayElements(Duration.ofSeconds(1))
+        }
+    /**
      * curl -i localhost:8080/postMono -H 'Content-Type: application/json' -d quid
      */
     @PostMapping("/postMono")
@@ -45,3 +59,5 @@ class StreamController {
                 .map { Collections.singletonMap("double", it) }
 
 }
+
+data class PostRequest(val data: Int)
