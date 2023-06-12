@@ -27,7 +27,6 @@ class Stock(
         name: String = this.name,
         price: Double = this.price,
         currency: String = this.currency,
-        code: String = this.code,
     ) = Stock(name, price, currency, code, LocalDateTime.now(), previousPrice.clone() as ArrayList<Double>)
 
     override fun equals(other: Any?): Boolean {
