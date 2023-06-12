@@ -3,13 +3,14 @@ package com.quid.webfluxground.sse.domain
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 class StockTest {
 
     @Test
     fun copy() {
         createStock(
-            name = "name", price = 1.0, currency = "currency", code = "code"
+            name = "name", price = BigDecimal(1), currency = "currency", code = "code"
         ).let {
             assertNotEquals(it.price, it.updatePrice().price)
         }
@@ -18,7 +19,7 @@ class StockTest {
     @Test
     fun equals() {
         createStock(
-            name = "name", price = 1.0, currency = "currency", code = "code"
+            name = "name", price = BigDecimal(1), currency = "currency", code = "code"
         ).let {
             assertEquals(it, it.updatePrice())
         }
@@ -27,7 +28,7 @@ class StockTest {
     @Test
     fun updateLog() {
         val stock = createStock(
-            name = "name", price = 1.0, currency = "currency", code = "code"
+            name = "name", price = BigDecimal(1), currency = "currency", code = "code"
         ).updatePrice()
         assertEquals(1, stock.previousPrice.size)
     }
@@ -35,7 +36,7 @@ class StockTest {
     @Test
     fun arrayCopy() {
         val stock = createStock(
-            name = "name", price = 1.0, currency = "currency", code = "code"
+            name = "name", price = BigDecimal(1), currency = "currency", code = "code"
         ).updatePrice()
         val updatePrice = stock.updatePrice()
         assertNotEquals(stock.previousPrice.size, updatePrice.previousPrice.size)

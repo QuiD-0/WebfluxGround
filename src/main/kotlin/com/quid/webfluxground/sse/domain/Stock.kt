@@ -1,33 +1,36 @@
 package com.quid.webfluxground.sse.domain
 
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDateTime
 import kotlin.random.Random
 
 class Stock(
     val name: String,
-    val price: Double,
+    val price: BigDecimal,
     val currency: String,
     val code: String,
     val timestamp: LocalDateTime = LocalDateTime.now(),
-    val previousPrice: ArrayList<Double> = arrayListOf(),
+    val previousPrice: ArrayList<BigDecimal> = arrayListOf(),
 ) {
     init {
         require(name.isNotBlank()) { "name must not be blank" }
-        require(price > 0) { "price must be greater than 0" }
+        require(price > BigDecimal.ZERO) { "price must be greater than 0" }
         require(currency.isNotBlank()) { "currency must not be blank" }
         require(code.isNotBlank()) { "code must not be blank" }
     }
 
-    fun updatePrice() = copy(price = Random.nextDouble(10.0, 100.0))
-        .also { it.addPriceLog(price) }
+    fun updatePrice() = copy(
+        price = Random.nextDouble(10.0, 100.0).toBigDecimal().setScale(2, RoundingMode.HALF_UP)
+    ).also { it.addPriceLog(price) }
 
-    private fun addPriceLog(price: Double) = previousPrice.apply { add(price) }
+    private fun addPriceLog(price: BigDecimal) = previousPrice.apply { add(price) }
 
     private fun copy(
         name: String = this.name,
-        price: Double = this.price,
+        price: BigDecimal = this.price,
         currency: String = this.currency,
-    ) = Stock(name, price, currency, code, LocalDateTime.now(), previousPrice.clone() as ArrayList<Double>)
+    ) = Stock(name, price, currency, code, LocalDateTime.now(), previousPrice.clone() as ArrayList<BigDecimal>)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -47,7 +50,7 @@ class Stock(
 
 fun createStock(
     name: String,
-    price: Double,
+    price: BigDecimal,
     currency: String,
     code: String,
 ) = Stock(name, price, currency, code)
