@@ -1,4 +1,4 @@
-package com.quid.webfluxground.Mono_Flux
+package com.quid.webfluxground.mono_flux
 
 import reactor.core.publisher.Mono
 import java.time.Duration

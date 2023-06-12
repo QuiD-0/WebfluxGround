@@ -1,6 +1,6 @@
-package com.quid.webfluxground.Stream
+package com.quid.webfluxground.stream
 
-import com.quid.webfluxground.Stream.request.PostRequest
+import com.quid.webfluxground.stream.request.PostRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
