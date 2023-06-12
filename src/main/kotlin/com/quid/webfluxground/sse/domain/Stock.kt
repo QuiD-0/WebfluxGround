@@ -18,19 +18,17 @@ class Stock(
         require(code.isNotBlank()) { "code must not be blank" }
     }
 
-    fun updatePrice() = copy(price = Random.nextDouble(10.0, 100.0), timestamp = LocalDateTime.now())
+    fun updatePrice() = copy(price = Random.nextDouble(10.0, 100.0))
         .also { it.addPriceLog(price) }
 
-    private fun addPriceLog(price: Double) = copy(previousPrice = previousPrice.apply { add(price) })
+    private fun addPriceLog(price: Double) = previousPrice.apply { add(price) }
 
     private fun copy(
         name: String = this.name,
         price: Double = this.price,
         currency: String = this.currency,
         code: String = this.code,
-        timestamp: LocalDateTime = this.timestamp,
-        previousPrice: ArrayList<Double> = this.previousPrice,
-    ) = Stock(name, price, currency, code, timestamp, previousPrice)
+    ) = Stock(name, price, currency, code, LocalDateTime.now(), previousPrice.clone() as ArrayList<Double>)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -28,8 +28,16 @@ class StockTest {
     fun updateLog() {
         val stock = createStock(
             name = "name", price = 1.0, currency = "currency", code = "code"
-        ).updatePrice().updatePrice().updatePrice()
-        println(stock.previousPrice)
-        println(stock.price)
+        ).updatePrice()
+        assertEquals(1, stock.previousPrice.size)
+    }
+
+    @Test
+    fun arrayCopy() {
+        val stock = createStock(
+            name = "name", price = 1.0, currency = "currency", code = "code"
+        ).updatePrice()
+        val updatePrice = stock.updatePrice()
+        assertNotEquals(stock.previousPrice.size, updatePrice.previousPrice.size)
     }
 }
