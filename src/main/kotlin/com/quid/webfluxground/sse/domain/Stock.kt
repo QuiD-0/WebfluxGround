@@ -15,21 +15,22 @@ class Stock(
 ) {
     init {
         require(name.isNotBlank()) { "name must not be blank" }
-        require(price > BigDecimal.ZERO) { "price must be greater than 0" }
         require(currency.isNotBlank()) { "currency must not be blank" }
         require(code.isNotBlank()) { "code must not be blank" }
     }
 
     fun updatePrice(): Stock =
-        copy(price = price + getRandomPrice()).also { it.addPriceLog(price) }
+        copy(price = getRandomPrice(price)).also { it.addPriceLog(price) }
 
     private fun addPriceLog(price: BigDecimal): Unit = previousPrice.let {
         it.add(price)
         if (it.size > 5) it.removeAt(0)
     }
 
-    private fun getRandomPrice() =
-        BigDecimal(Random.nextDouble(-10.0, 10.0)).setScale(2, RoundingMode.HALF_UP)
+    private fun getRandomPrice(price: BigDecimal) =
+        Random.nextDouble(-10.0, 10.0).let {
+            price + BigDecimal(it).setScale(2, RoundingMode.HALF_UP)
+        }
 
     private fun clonePriceLog() = ArrayList<BigDecimal>(previousPrice)
 
@@ -39,20 +40,6 @@ class Stock(
         name: String = this.name,
         price: BigDecimal = this.price,
         currency: String = this.currency,
-    ) = Stock(name, price, currency, code, LocalDateTime.now(), clonePriceLog())
+    ) = Stock(name, price.abs(), currency, code, LocalDateTime.now(), clonePriceLog())
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Stock
-
-        if (code != other.code) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return code.hashCode()
-    }
 }
