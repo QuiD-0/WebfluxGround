@@ -1,4 +1,4 @@
-package com.quid.webfluxground.sse.gateway.web
+package com.quid.webfluxground.sse.gateway.web.response
 
 import com.quid.webfluxground.sse.domain.Stock
 import reactor.core.publisher.Mono
@@ -9,6 +9,7 @@ data class StockResponse(
     val code: String,
     val price: String,
     val timestamp: LocalDateTime,
+    val delta : String = ""
 )
 
 fun toResponse(stock: Stock) = Mono.just(
@@ -16,6 +17,7 @@ fun toResponse(stock: Stock) = Mono.just(
         name = stock.name,
         code = stock.code,
         price = stock.price.toString() + " " + stock.currency,
-        timestamp = stock.timestamp
+        timestamp = stock.timestamp,
+        delta = stock.getDelta()
     )
 )

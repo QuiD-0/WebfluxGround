@@ -1,5 +1,7 @@
 package com.quid.webfluxground.sse.gateway.web
 
+import com.quid.webfluxground.sse.gateway.web.response.StockResponse
+import com.quid.webfluxground.sse.gateway.web.response.toResponse
 import com.quid.webfluxground.sse.usecase.FindStock
 import com.quid.webfluxground.sse.usecase.RealTimePrice
 import org.springframework.web.bind.annotation.GetMapping

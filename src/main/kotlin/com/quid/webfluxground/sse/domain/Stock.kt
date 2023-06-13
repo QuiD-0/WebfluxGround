@@ -33,6 +33,8 @@ class Stock(
 
     private fun clonePriceLog() = ArrayList<BigDecimal>(previousPrice)
 
+    fun getDelta(): String =previousPrice.lastOrNull()?.let { price - it }?.toString() ?: "0"
+
     private fun copy(
         name: String = this.name,
         price: BigDecimal = this.price,
