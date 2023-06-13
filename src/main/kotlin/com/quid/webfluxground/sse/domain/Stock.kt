@@ -55,10 +55,3 @@ class Stock(
         return code.hashCode()
     }
 }
-
-fun createStock(
-    name: String,
-    price: BigDecimal,
-    currency: String,
-    code: String,
-) = Stock(name, price, currency, code)
