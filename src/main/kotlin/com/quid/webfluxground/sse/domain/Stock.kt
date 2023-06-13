@@ -21,10 +21,13 @@ class Stock(
     }
 
     fun updatePrice() = copy(
-        price = Random.nextDouble(10.0, 100.0).toBigDecimal().setScale(2, RoundingMode.HALF_UP)
+        price = price + Random.nextDouble(-10.0, 10.0).toBigDecimal().setScale(2, RoundingMode.HALF_UP)
     ).also { it.addPriceLog(price) }
 
-    private fun addPriceLog(price: BigDecimal) = previousPrice.apply { add(price) }
+    private fun addPriceLog(price: BigDecimal): Unit = previousPrice.let {
+        it.add(price)
+        if (it.size > 5) it.removeAt(0)
+    }
 
     private fun copy(
         name: String = this.name,

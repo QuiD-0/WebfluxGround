@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.Duration
 
 @RestController
 @RequestMapping("/api/stock")
@@ -21,7 +22,8 @@ class StockApiController(
     fun findStock(@PathVariable code: String) = findStock.byCode(Mono.just(code))
 
     @GetMapping("/price/{code}")
-    fun realTimePrice(@PathVariable code: String): Flux<Stock> = Flux.interval(java.time.Duration.ofSeconds(1))
+    fun realTimePrice(@PathVariable code: String): Flux<Stock> =
+        Flux.interval(Duration.ofSeconds(1))
         .flatMap { realTimePrice.byCode(Mono.just(code)) }
 
 }

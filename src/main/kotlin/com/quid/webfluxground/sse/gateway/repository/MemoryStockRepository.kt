@@ -13,13 +13,8 @@ class MemoryStockRepository : StockRepository {
         "AMZN" to Stock("Amazon", BigDecimal(300.0), "USD", "AMZN"),
     )
 
-    override fun findByCode(code: Mono<String>): Mono<Stock> {
-        return code.map { stocks[it]?: throw IllegalArgumentException("Stock not found") }
-    }
+    override fun findByCode(code: Mono<String>): Mono<Stock> = code.map { stocks[it]?: throw IllegalArgumentException("Stock not found") }
 
-    override fun save(stock: Stock): Mono<Stock> {
-        stocks[stock.code] = stock
-        return Mono.just(stock)
-    }
+    override fun save(stock: Stock): Mono<Stock> = Mono.just(stock).also { stocks[stock.code] = stock }
 
 }

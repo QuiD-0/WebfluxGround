@@ -14,10 +14,9 @@ interface RealTimePrice {
         private val stockRepository: StockRepository,
     ) : RealTimePrice {
 
-        override fun byCode(code: Mono<String>): Mono<Stock> {
-            return stockRepository.findByCode(code)
+        override fun byCode(code: Mono<String>): Mono<Stock> =
+            stockRepository.findByCode(code)
                 .map { it.updatePrice() }
                 .flatMap { stockRepository.save(it) }
-        }
     }
 }

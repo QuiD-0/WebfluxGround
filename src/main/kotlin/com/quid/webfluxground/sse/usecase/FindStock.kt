@@ -14,8 +14,6 @@ interface FindStock {
         private val stockRepository: StockRepository
     ) : FindStock {
 
-        override fun byCode(code: Mono<String>): Mono<Stock> {
-            return stockRepository.findByCode(code)
-        }
+        override fun byCode(code: Mono<String>): Mono<Stock> = stockRepository.findByCode(code)
     }
 }
