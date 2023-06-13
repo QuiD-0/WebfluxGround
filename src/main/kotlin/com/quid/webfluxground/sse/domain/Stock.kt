@@ -21,21 +21,24 @@ class Stock(
         require(code.isNotBlank()) { "code must not be blank" }
     }
 
-    fun updatePrice(): Mono<Stock> = Mono.just(copy(price = price + getRandomPrice()).also { it.addPriceLog(price) })
+    fun updatePrice(): Mono<Stock> =
+        Mono.just(copy(price = price + getRandomPrice()).also { it.addPriceLog(price) })
 
     private fun addPriceLog(price: BigDecimal): Unit = previousPrice.let {
         it.add(price)
         if (it.size > 5) it.removeAt(0)
     }
-    private fun getRandomPrice() = BigDecimal(Random.nextDouble(-10.0, 10.0)).setScale(2, RoundingMode.HALF_UP)
+
+    private fun getRandomPrice() =
+        BigDecimal(Random.nextDouble(-10.0, 10.0)).setScale(2, RoundingMode.HALF_UP)
+
+    private fun clonePriceLog() = ArrayList<BigDecimal>(previousPrice)
 
     private fun copy(
         name: String = this.name,
         price: BigDecimal = this.price,
         currency: String = this.currency,
     ) = Stock(name, price, currency, code, LocalDateTime.now(), clonePriceLog())
-
-    private fun clonePriceLog() = previousPrice.stream().toList().toCollection(ArrayList())
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
