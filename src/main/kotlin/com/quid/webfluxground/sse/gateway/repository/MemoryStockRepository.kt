@@ -2,6 +2,7 @@ package com.quid.webfluxground.sse.gateway.repository
 
 import com.quid.webfluxground.sse.domain.Stock
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.math.BigDecimal
 
@@ -14,7 +15,7 @@ class MemoryStockRepository : StockRepository {
     )
 
     override fun findByCode(code: Mono<String>): Mono<Stock> = code.map { stocks[it]?: throw IllegalArgumentException("Stock not found") }
-
     override fun save(stock: Stock): Stock = stock.also { stocks[it.code] = it }
+    override fun findAll(): Flux<Stock> { return Flux.fromIterable(stocks.values) }
 
 }

@@ -30,4 +30,9 @@ class StockApiController(
             .flatMap { realTimePrice.byCode(Mono.just(code)) }
             .flatMap(::toResponse)
 
+    @GetMapping("/price")
+    fun realTimePrice(): Flux<StockResponse> =
+        Flux.interval(Duration.ofSeconds(1))
+            .flatMap { realTimePrice.all() }
+            .flatMap(::toResponse)
 }
