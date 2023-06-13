@@ -7,12 +7,12 @@ class StockTest{
 
     @Test
     fun deepCopy(){
-        val list1 = listOf(1, 2, 3, 4, 5).toCollection(ArrayList())
-        val list2 = list1.stream().toList().toCollection(ArrayList())
+        val origin = arrayListOf(1,2,3)
+        val copy = ArrayList<Int>(origin)
 
-        list1.add(6)
-        list2.add(7)
+        origin.add(6)
+        copy.add(7)
 
-        assertNotEquals(list1, list2)
+        assertNotEquals(origin, copy)
     }
 }
