@@ -15,6 +15,6 @@ class MemoryStockRepository : StockRepository {
 
     override fun findByCode(code: Mono<String>): Mono<Stock> = code.map { stocks[it]?: throw IllegalArgumentException("Stock not found") }
 
-    override fun save(stock: Stock): Mono<Stock> = Mono.just(stock).also { stocks[stock.code] = stock }
+    override fun save(stock: Stock): Stock = stock.also { stocks[it.code] = it }
 
 }

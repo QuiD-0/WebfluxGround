@@ -1,6 +1,5 @@
 package com.quid.webfluxground.sse.domain
 
-import reactor.core.publisher.Mono
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDateTime
@@ -21,8 +20,8 @@ class Stock(
         require(code.isNotBlank()) { "code must not be blank" }
     }
 
-    fun updatePrice(): Mono<Stock> =
-        Mono.just(copy(price = price + getRandomPrice()).also { it.addPriceLog(price) })
+    fun updatePrice(): Stock =
+        copy(price = price + getRandomPrice()).also { it.addPriceLog(price) }
 
     private fun addPriceLog(price: BigDecimal): Unit = previousPrice.let {
         it.add(price)

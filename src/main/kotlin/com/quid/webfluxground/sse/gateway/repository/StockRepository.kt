@@ -7,5 +7,5 @@ interface StockRepository {
 
     fun findByCode(code: Mono<String>): Mono<Stock>
 
-    fun save(stock: Stock): Mono<Stock>
+    fun save(stock: Stock): Stock
 }

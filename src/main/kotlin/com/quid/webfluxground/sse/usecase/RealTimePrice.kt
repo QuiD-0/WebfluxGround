@@ -16,7 +16,7 @@ interface RealTimePrice {
 
         override fun byCode(code: Mono<String>): Mono<Stock> =
             stockRepository.findByCode(code)
-                .flatMap { it.updatePrice() }
-                .flatMap { stockRepository.save(it) }
+                .map { it.updatePrice() }
+                .map { stockRepository.save(it) }
     }
 }

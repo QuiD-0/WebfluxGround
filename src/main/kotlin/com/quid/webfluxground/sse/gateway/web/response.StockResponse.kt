@@ -11,7 +11,7 @@ data class StockResponse(
     val timestamp: LocalDateTime,
 )
 
-fun from(stock: Stock) = Mono.just(
+fun toResponse(stock: Stock) = Mono.just(
     StockResponse(
         name = stock.name,
         code = stock.code,

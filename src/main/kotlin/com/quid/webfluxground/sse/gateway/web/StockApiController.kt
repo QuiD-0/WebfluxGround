@@ -20,12 +20,12 @@ class StockApiController(
     @GetMapping("/find/{code}")
     fun findStock(@PathVariable code: String): Mono<StockResponse> =
         findStock.byCode(Mono.just(code))
-            .flatMap(::from)
+            .flatMap(::toResponse)
 
     @GetMapping("/price/{code}")
     fun realTimePrice(@PathVariable code: String): Flux<StockResponse> =
         Flux.interval(Duration.ofSeconds(1))
             .flatMap { realTimePrice.byCode(Mono.just(code)) }
-            .flatMap { from(it) }
+            .flatMap(::toResponse)
 
 }

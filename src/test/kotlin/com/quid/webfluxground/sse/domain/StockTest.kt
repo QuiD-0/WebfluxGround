@@ -15,4 +15,20 @@ class StockTest{
 
         assertNotEquals(origin, copy)
     }
+
+    @Test
+    fun updatePrice(){
+        val stock = Stock("name", 100.toBigDecimal(), "USD", "code")
+        val updatedStock = stock.updatePrice()
+
+        assertNotEquals(stock.price, updatedStock.price)
+    }
+
+    @Test
+    fun updatePriceLog(){
+        val stock = Stock("name", 100.toBigDecimal(), "USD", "code")
+        val updatedStock = stock.updatePrice()
+
+        assertEquals(updatedStock.previousPrice.size, 1)
+    }
 }
