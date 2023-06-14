@@ -6,6 +6,15 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .up {
+      color: green;
+    }
+
+    .down {
+      color: red;
+    }
+  </style>
 </head>
 <body>
 <!--app-->
@@ -32,10 +41,10 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-if="stocks.size > 0" v-for="key in stocks.keys()">
+          <tr v-if="stocks.size > 0" v-for="key in stocks.keys()" :class="deltaColor(stocks.get(key).delta)">
             <td> {{ stocks.get(key).name }}</td>
             <td> {{ stocks.get(key).price }}</td>
-            <td> {{ stocks.get(key).delta }}</td>
+            <td > {{ stocks.get(key).delta }}</td>
           </tr>
           </tbody>
         </table>
@@ -63,8 +72,14 @@
           self.stocks.set(stock.code, stock);
           self.stocks = new Map(self.stocks);
         });
-      }
-    }
+      },
+      deltaColor(delta) {
+        return {
+          'up': delta > 0,
+          'down': delta < 0
+        }
+      },
+    },
   })
 </script>
 </html>
