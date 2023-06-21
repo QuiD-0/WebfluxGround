@@ -18,11 +18,11 @@ class PushController(
 ) {
 
     @GetMapping(path = ["/subscribe"], produces = [TEXT_EVENT_STREAM_VALUE])
-    fun consumer(): Flux<ServerSentEvent<Any>> {
-        return Flux.create { sink: FluxSink<ServerSentEvent<Any>> ->
+    fun consumer(): Flux<ServerSentEvent<Push>> {
+        return Flux.create { sink: FluxSink<ServerSentEvent<Push>> ->
             pushHandler.subscribe { push ->
                 sink.next(
-                    ServerSentEvent.builder<Any>()
+                    ServerSentEvent.builder<Push>()
                         .id(push.id)
                         .event("push")
                         .data(push)
