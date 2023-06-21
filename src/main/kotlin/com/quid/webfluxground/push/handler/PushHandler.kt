@@ -5,19 +5,21 @@ import org.springframework.stereotype.Service
 import java.util.function.Consumer
 
 interface PushHandler {
-    fun subscribe(listener: Consumer<Push>)
+    fun subscribe(id:String, listener: Consumer<Push>)
     fun publish(push: Push)
 
     @Service
     class MemoryPushHandler : PushHandler {
-        private val listeners: MutableList<Consumer<Push>> = arrayListOf()
+        private val listeners: MutableMap<String, List<Consumer<Push>>> = hashMapOf()
 
-        override fun subscribe(listener: Consumer<Push>) {
-            listeners.add(listener)
+        override fun subscribe(id:String, listener: Consumer<Push>) {
+            listeners[id] = listeners[id]?.plus(listener) ?: listOf(listener)
         }
 
         override fun publish(push: Push) {
-            listeners.forEach { listener -> listener.accept(push) }
+            push.receiver.let {
+                listeners[it]?.forEach { listener -> listener.accept(push) }
+            }
         }
     }
 }

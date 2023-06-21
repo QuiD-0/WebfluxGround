@@ -15,9 +15,9 @@ class PushController(
     private val pushHandler: PushHandler
 ) {
 
-    @GetMapping("/subscribe")
-    fun consumer(): Flux<ServerSentEvent<Push>> = Flux.create {
-        pushHandler.subscribe { push ->
+    @GetMapping("/subscribe/{id}")
+    fun consumer(@PathVariable id: String): Flux<ServerSentEvent<Push>> = Flux.create {
+        pushHandler.subscribe(id) { push ->
             it.next(
                 ServerSentEvent.builder<Push>()
                     .id(push.id)
