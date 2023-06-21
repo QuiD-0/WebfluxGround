@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 
 
 @RestController
@@ -29,5 +30,6 @@ class PushController(
 
     @PostMapping("/send")
     @ResponseStatus(HttpStatus.CREATED)
-    fun send(@RequestBody push: Push) = pushHandler.publish(push)
+    fun send(@RequestBody push: Push): Mono<Push> =
+        Mono.just(push).doOnNext(pushHandler::publish)
 }
