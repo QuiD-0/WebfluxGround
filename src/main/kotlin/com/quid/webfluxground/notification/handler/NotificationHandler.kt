@@ -2,6 +2,7 @@ package com.quid.webfluxground.notification.handler
 
 import com.quid.webfluxground.notification.domain.Notification
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
 import java.util.function.Consumer
 
 interface NotificationHandler {
@@ -17,9 +18,8 @@ interface NotificationHandler {
         }
 
         override fun publish(notification: Notification) {
-            notification.receiver.let {
-                listeners[it]?.forEach { listener -> listener.accept(notification) }
-            }
+            listeners[notification.receiver]?.forEach { listener -> listener.accept(notification) }
         }
+
     }
 }
