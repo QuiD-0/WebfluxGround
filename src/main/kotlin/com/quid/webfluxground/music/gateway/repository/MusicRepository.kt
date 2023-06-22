@@ -1,6 +1,7 @@
 package com.quid.webfluxground.music.gateway.repository
 
 import com.quid.webfluxground.music.domain.Music
+import com.quid.webfluxground.music.gateway.repository.mongo.MusicReactiveMongoRepository
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
@@ -17,22 +18,22 @@ interface MusicRepository {
 
     @Repository
     class MusicRepositoryImpl(
-        private val reactiveMusicMongoRepository: ReactiveMusicMongoRepository,
+        private val musicReactiveMongoRepository: MusicReactiveMongoRepository,
     ) : MusicRepository {
         override fun findAll(): Flux<Music> {
-            return reactiveMusicMongoRepository.findAll().map { it.toDomain() }
+            return musicReactiveMongoRepository.findAll().map { it.toDomain() }
         }
 
         override fun save(music: Music): Mono<Music> {
-            return reactiveMusicMongoRepository.save(document(music)).map { it.toDomain() }
+            return musicReactiveMongoRepository.save(document(music)).map { it.toDomain() }
         }
 
         override fun checkDuplicate(music: Music): Mono<Boolean> {
-            return reactiveMusicMongoRepository.existsByTitleAndArtist(music.title, music.artist)
+            return musicReactiveMongoRepository.existsByTitleAndArtist(music.title, music.artist)
         }
 
         override fun findById(id: String): Mono<Music> {
-            return reactiveMusicMongoRepository.findById(ObjectId(id))
+            return musicReactiveMongoRepository.findById(ObjectId(id))
                 .filter(Objects::nonNull)
                 .switchIfEmpty(Mono.error(IllegalArgumentException("Music not found")))
                 .map { it.toDomain() }
@@ -40,11 +41,11 @@ interface MusicRepository {
         }
 
         override fun delete(id: String) {
-            reactiveMusicMongoRepository.deleteById(ObjectId(id)).subscribe()
+            musicReactiveMongoRepository.deleteById(ObjectId(id)).subscribe()
         }
 
         override fun deleteBy(title: String, artist: String) {
-            reactiveMusicMongoRepository.deleteByTitleAndArtist(title, artist).subscribe()
+            musicReactiveMongoRepository.deleteByTitleAndArtist(title, artist).subscribe()
         }
     }
 }
