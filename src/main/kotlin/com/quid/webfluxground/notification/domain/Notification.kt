@@ -1,9 +1,9 @@
-package com.quid.webfluxground.push.domain
+package com.quid.webfluxground.notification.domain
 
 import org.bson.types.ObjectId
 import java.time.LocalDateTime
 
-class Push(
+class Notification(
     val id: String = ObjectId().toHexString(),
     val message: String,
     val sender: String,
@@ -15,7 +15,7 @@ class Push(
             message: String,
             sender: String,
             receiver: String
-        ): Push = Push(
+        ): Notification = Notification(
             message = message,
             sender = sender,
             receiver = receiver
