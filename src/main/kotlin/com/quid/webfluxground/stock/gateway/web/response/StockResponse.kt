@@ -1,6 +1,6 @@
-package com.quid.webfluxground.sse_stock.gateway.web.response
+package com.quid.webfluxground.stock.gateway.web.response
 
-import com.quid.webfluxground.sse_stock.domain.Stock
+import com.quid.webfluxground.stock.domain.Stock
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 

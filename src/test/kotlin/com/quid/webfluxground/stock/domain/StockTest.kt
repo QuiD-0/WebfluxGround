@@ -1,4 +1,4 @@
-package com.quid.webfluxground.sse_stock.domain
+package com.quid.webfluxground.stock.domain
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

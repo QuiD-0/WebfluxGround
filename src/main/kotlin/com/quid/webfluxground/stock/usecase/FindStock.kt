@@ -1,7 +1,7 @@
-package com.quid.webfluxground.sse_stock.usecase
+package com.quid.webfluxground.stock.usecase
 
-import com.quid.webfluxground.sse_stock.domain.Stock
-import com.quid.webfluxground.sse_stock.gateway.repository.StockRepository
+import com.quid.webfluxground.stock.domain.Stock
+import com.quid.webfluxground.stock.gateway.repository.StockRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 

@@ -1,6 +1,6 @@
-package com.quid.webfluxground.sse_stock.gateway.repository
+package com.quid.webfluxground.stock.gateway.repository
 
-import com.quid.webfluxground.sse_stock.domain.Stock
+import com.quid.webfluxground.stock.domain.Stock
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 

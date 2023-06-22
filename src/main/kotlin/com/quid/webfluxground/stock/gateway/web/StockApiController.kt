@@ -1,9 +1,9 @@
-package com.quid.webfluxground.sse_stock.gateway.web
+package com.quid.webfluxground.stock.gateway.web
 
-import com.quid.webfluxground.sse_stock.gateway.web.response.StockResponse
-import com.quid.webfluxground.sse_stock.gateway.web.response.toResponse
-import com.quid.webfluxground.sse_stock.usecase.FindStock
-import com.quid.webfluxground.sse_stock.usecase.RealTimePrice
+import com.quid.webfluxground.stock.gateway.web.response.StockResponse
+import com.quid.webfluxground.stock.gateway.web.response.toResponse
+import com.quid.webfluxground.stock.usecase.FindStock
+import com.quid.webfluxground.stock.usecase.RealTimePrice
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
