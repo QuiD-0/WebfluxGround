@@ -3,7 +3,7 @@ package com.quid.webfluxground.notification.gateway.web
 import com.quid.webfluxground.notification.domain.Notification
 import com.quid.webfluxground.notification.gateway.web.request.NotificationRequest
 import com.quid.webfluxground.notification.handler.NotificationHandler
-import com.quid.webfluxground.notification.usecase.NotificationHistory
+import com.quid.webfluxground.notification.usecase.SaveNotification
 import org.springframework.http.HttpStatus
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.web.bind.annotation.*
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono
 @RequestMapping("/api/push")
 class NotificationController(
     private val notificationHandler: NotificationHandler,
-    private val notificationHistory: NotificationHistory
+    private val saveNotification: SaveNotification
 ) {
 
     @GetMapping("/subscribe/{id}")
@@ -35,7 +35,7 @@ class NotificationController(
     @ResponseStatus(HttpStatus.CREATED)
     fun send(@RequestBody request: NotificationRequest): Mono<Notification> =
         Mono.just(request.toNotification())
-            .flatMap { notificationHistory.save(it) }
+            .flatMap { saveNotification.execute(it) }
             .doOnNext { notificationHandler.publish(it) }
 
 }

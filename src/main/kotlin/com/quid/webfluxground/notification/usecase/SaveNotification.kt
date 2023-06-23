@@ -5,16 +5,16 @@ import com.quid.webfluxground.notification.gateway.repository.NotificationReposi
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
-interface NotificationHistory {
+interface SaveNotification {
 
-    fun save(notification: Notification): Mono<Notification>
+    fun execute(notification: Notification): Mono<Notification>
 
     @Service
     class MongoNotificationHistory(
         private val repository: NotificationRepository
-    ) : NotificationHistory {
+    ) : SaveNotification {
 
-        override fun save(notification: Notification): Mono<Notification> =
+        override fun execute(notification: Notification): Mono<Notification> =
             repository.save(notification)
     }
 }
