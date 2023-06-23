@@ -19,9 +19,9 @@ interface NotificationRepository {
                 .let { repository.save(it) }
                 .map { it.toDomain() }
 
-        override fun findByReceiver(receiver: String): Flux<Notification> {
-            return repository.findByReceiver(receiver)
+        override fun findByReceiver(receiver: String): Flux<Notification> =
+            repository.findByReceiver(receiver)
                 .map { it.toDomain() }
-        }
+
     }
 }
