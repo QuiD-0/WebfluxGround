@@ -42,4 +42,7 @@ class Stock(
         currency: String = this.currency,
     ) = Stock(name, price.abs(), currency, code, LocalDateTime.now(), clonePriceLog())
 
+    override fun toString(): String {
+        return "Stock(name='$name', price=$price, currency='$currency', code='$code', timestamp=$timestamp, previousPrice=$previousPrice)"
+    }
 }
