@@ -1,4 +1,4 @@
-package com.quid.webfluxground.stock.gateway.web.response
+package com.quid.webfluxground.stock.gateway.api.response
 
 import com.quid.webfluxground.stock.domain.Stock
 import reactor.core.publisher.Mono

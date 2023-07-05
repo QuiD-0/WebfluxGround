@@ -1,7 +1,7 @@
-package com.quid.webfluxground.stock.gateway.web
+package com.quid.webfluxground.stock.gateway.api
 
-import com.quid.webfluxground.stock.gateway.web.response.StockResponse
-import com.quid.webfluxground.stock.gateway.web.response.toResponse
+import com.quid.webfluxground.stock.gateway.api.response.StockResponse
+import com.quid.webfluxground.stock.gateway.api.response.toResponse
 import com.quid.webfluxground.stock.usecase.FindStock
 import com.quid.webfluxground.stock.usecase.RealTimePrice
 import org.springframework.web.bind.annotation.GetMapping
@@ -39,5 +39,11 @@ class StockApiController(
     @GetMapping("/all")
     fun all(): Flux<StockResponse> =
         realTimePrice.all()
+            .flatMap(::toResponse)
+
+    @GetMapping("/bitcoin")
+    fun bitcoin(): Flux<StockResponse> =
+        Flux.interval(Duration.ofSeconds(1))
+            .flatMap { realTimePrice.btc() }
             .flatMap(::toResponse)
 }
