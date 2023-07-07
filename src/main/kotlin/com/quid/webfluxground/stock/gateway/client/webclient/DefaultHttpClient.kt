@@ -5,7 +5,6 @@ import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
 import reactor.netty.http.client.HttpClient
 import java.time.Duration
-import java.util.Base64.Decoder
 import java.util.concurrent.TimeUnit
 
 class DefaultHttpClient {
