@@ -13,11 +13,11 @@ class DefaultHttpClient {
     companion object {
         fun create(): HttpClient =
             HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
-                .responseTimeout(Duration.ofMillis(5000))
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000)
+                .responseTimeout(Duration.ofMillis(1000))
                 .doOnConnected { conn ->
-                    conn.addHandlerLast(ReadTimeoutHandler(5000, TimeUnit.MILLISECONDS))
-                        .addHandlerLast(WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS))
+                    conn.addHandlerLast(ReadTimeoutHandler(1000, TimeUnit.MILLISECONDS))
+                        .addHandlerLast(WriteTimeoutHandler(1000, TimeUnit.MILLISECONDS))
                 }
     }
 }

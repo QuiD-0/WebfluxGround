@@ -14,13 +14,12 @@ interface BitcoinGateway {
     class WebClientBitcoinGateway(
         @Qualifier("bitcoinWebClient") private val webClient: WebClient
     ) : BitcoinGateway {
-        override fun price(): Flux<Stock> {
-            return webClient.get()
-                .uri("/ticker")
-                .retrieve()
-                .bodyToFlux(BitcoinResponse::class.java)
-                .map { it.toStock() }
-                .log()
-        }
+
+        override fun price(): Flux<Stock> = webClient.get()
+            .uri("/ticker")
+            .retrieve()
+            .bodyToFlux(BitcoinResponse::class.java)
+            .map { it.toStock() }
+            .log()
     }
 }
