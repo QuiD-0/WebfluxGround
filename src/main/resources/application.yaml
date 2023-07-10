@@ -4,7 +4,7 @@ spring:
       uri: uri
       auto-index-creation: true
   kafka:
-    bootstrap-servers: url
+    bootstrap-servers: localhost:9092
     consumer:
       auto-offset-reset: earliest
       group-id: push
@@ -14,7 +14,7 @@ spring:
         spring:
           json:
             trusted:
-              packages: *
+              packages: "*"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
