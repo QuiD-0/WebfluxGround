@@ -17,14 +17,14 @@ interface PushConsumer {
         private val saveNotification: SaveNotification
     ) : PushConsumer {
 
-        @KafkaListener(groupId = "push")
+        @KafkaListener(topics = ["push"], groupId = "push")
         override fun consume(
             notification: Notification,
             ack: Acknowledgment
         ) {
+            notificationHandler.publish(notification)
             saveNotification.execute(notification)
-                .let { notificationHandler.publish(notification) }
-                .also { ack.acknowledge() }
+                .subscribe { ack.acknowledge() }
         }
     }
 }
