@@ -6,14 +6,15 @@ import org.springframework.stereotype.Component
 
 interface PushProducer {
 
-    fun publish(notification: Notification)
+    fun publish(notification: () -> Notification)
 
     @Component
     class KafkaPushProducer(
         private val kafkaTemplate: KafkaTemplate<String, Notification>
     ) : PushProducer {
 
-        override fun publish(notification: Notification): Unit =
-            Unit.let { kafkaTemplate.send("push", notification) }
+        override fun publish(notification: () -> Notification) {
+            notification().let { kafkaTemplate.send("push", it) }
+        }
     }
 }

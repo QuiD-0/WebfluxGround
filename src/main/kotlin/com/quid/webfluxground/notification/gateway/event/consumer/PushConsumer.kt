@@ -3,6 +3,7 @@ package com.quid.webfluxground.notification.gateway.event.consumer
 import com.quid.webfluxground.notification.domain.Notification
 import com.quid.webfluxground.notification.handler.NotificationHandler
 import com.quid.webfluxground.notification.usecase.SaveNotification
+import com.quid.webfluxground.notification.usecase.SendNotification
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.Acknowledgment
 import org.springframework.stereotype.Component
@@ -13,8 +14,7 @@ interface PushConsumer {
 
     @Component
     class KafkaPushConsumer(
-        private val notificationHandler: NotificationHandler,
-        private val saveNotification: SaveNotification
+        private val sendNotification: SendNotification
     ) : PushConsumer {
 
         @KafkaListener(topics = ["push"], groupId = "push")
@@ -22,9 +22,7 @@ interface PushConsumer {
             notification: Notification,
             ack: Acknowledgment
         ) {
-            notificationHandler.publish(notification)
-            saveNotification.execute(notification)
-                .subscribe { ack.acknowledge() }
+            sendNotification.execute(notification, ack)
         }
     }
 }

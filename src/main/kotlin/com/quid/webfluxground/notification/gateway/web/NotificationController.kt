@@ -34,7 +34,6 @@ class NotificationController(
     @PostMapping("/send")
     @ResponseStatus(HttpStatus.CREATED)
     fun send(@RequestBody request: NotificationRequest) =
-        request.toNotification().let {
-            pushProducer.publish(it)
-        }
+        pushProducer.publish { request.toNotification() }
+
 }
