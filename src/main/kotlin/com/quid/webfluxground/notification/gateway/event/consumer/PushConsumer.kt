@@ -1,7 +1,6 @@
 package com.quid.webfluxground.notification.gateway.event.consumer
 
 import com.quid.webfluxground.notification.domain.Notification
-import com.quid.webfluxground.notification.handler.NotificationHandler
 import com.quid.webfluxground.notification.usecase.SaveNotification
 import com.quid.webfluxground.notification.usecase.SendNotification
 import org.springframework.kafka.annotation.KafkaListener
