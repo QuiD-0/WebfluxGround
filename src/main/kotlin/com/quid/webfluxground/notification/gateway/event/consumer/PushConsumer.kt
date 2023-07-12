@@ -14,7 +14,8 @@ interface PushConsumer {
 
     @Component
     class KafkaPushConsumer(
-        private val sendNotification: SendNotification
+        private val sendNotification: SendNotification,
+        private val saveNotification: SaveNotification
     ) : PushConsumer {
 
         @KafkaListener(topics = ["push"], groupId = "push")
@@ -22,7 +23,10 @@ interface PushConsumer {
             notification: Notification,
             ack: Acknowledgment
         ) {
-            sendNotification.execute(notification, ack)
+            saveNotification.execute(notification)
+                .map { sendNotification.execute(it) }
+                .doOnSuccess { ack.acknowledge() }
+                .subscribe()
         }
     }
 }
